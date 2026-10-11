@@ -13,6 +13,8 @@ batería, retroiluminación blanca del teclado e información del sistema.
 | Fan Control | System (sensores y núcleos en vivo) | Teclado |
 |---|---|---|
 | ![Fan Control](doc/screenshots/fan-control.png) | ![System](doc/screenshots/system.png) | ![Teclado](doc/screenshots/teclado.png) |
+| Energía | Readme | |
+| ![Energía](doc/screenshots/energia.png) | ![Readme](doc/screenshots/readme.png) | |
 
 ## Arquitectura
 
