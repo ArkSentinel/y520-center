@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+  <!-- Outer Rounded Square Background (GNOME Adwaita Style) -->
+  <rect x="32" y="32" width="448" height="448" rx="96" ry="96" fill="#24262b" />
+
+  <!-- Inner Outer Ring Guide Accent (Optional subtle depth/frame, flat style) -->
+  <circle cx="256" cy="256" r="160" fill="none" stroke="#32353c" stroke-width="8" />
+
+  <!-- Cooling Fan Group centered -->
+  <g transform="translate(256, 256)">
+
+    <!-- Red Blade (Legion Red #E2231A) - Pointing Top/Upwards-Right -->
+    <g transform="rotate(0)">
+      <path d="M 0 0
+               C 15 -45, 45 -110, 80 -130
+               C 110 -145, 125 -105, 90 -65
+               C 55 -25, 20 -10, 0 0 Z"
+            fill="#E2231A" />
+    </g>
+
+    <!-- Light Gray Blade 2 - Pointing Bottom-Right -->
+    <g transform="rotate(120)">
+      <path d="M 0 0
+               C 15 -45, 45 -110, 80 -130
+               C 110 -145, 125 -105, 90 -65
+               C 55 -25, 20 -10, 0 0 Z"
+            fill="#E0E4E8" />
+    </g>
+
+    <!-- Light Gray Blade 3 - Pointing Bottom-Left -->
+    <g transform="rotate(240)">
+      <path d="M 0 0
+               C 15 -45, 45 -110, 80 -130
+               C 110 -145, 125 -105, 90 -65
+               C 55 -25, 20 -10, 0 0 Z"
+            fill="#E0E4E8" />
+    </g>
+
+    <!-- Center Hub overlay to tie blades together -->
+    <circle cx="0" cy="0" r="36" fill="#24262b" />
+
+    <!-- Subtle Inner Y-Shape Center Core -->
+    <circle cx="0" cy="0" r="24" fill="#E0E4E8" />
+
+    <!-- Center Y-Seams/Accents -->
+    <path d="M 0 0 L 0 -24 M 0 0 L 20.78 12 M 0 0 L -20.78 12" stroke="#24262b" stroke-width="4" stroke-linecap="round" />
+  </g>
+</svg>

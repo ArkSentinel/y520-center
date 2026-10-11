@@ -1,0 +1,15 @@
+[Unit]
+Description=Lenovo Y520 Nerve Center daemon (D-Bus org.lenovo.Y520)
+After=dbus.service
+Requires=dbus.service
+
+[Service]
+Type=dbus
+BusName=org.lenovo.Y520
+ExecStart=/usr/bin/y520d
+Restart=on-failure
+CapabilityBoundingSet=CAP_SYS_RAWIO
+AmbientCapabilities=CAP_SYS_RAWIO
+
+[Install]
+WantedBy=multi-user.target

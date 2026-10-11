@@ -1,0 +1,39 @@
+# CI: compila + tests en cada push/PR (Ubuntu 24.04 LTS).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Dependencias
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y meson ninja-build g++ pkg-config \
+            libgtk-4-dev libadwaita-1-dev libglib2.0-dev dpkg-dev
+
+      - name: Configurar
+        run: meson setup build --prefix=/usr --buildtype=release
+
+      - name: Compilar
+        run: ninja -C build
+
+      - name: Tests (dry, sin hardware)
+        run: meson test -C build --print-errorlogs
+
+      - name: Validar empaquetado .deb
+        run: ./packaging/mkdeb.sh 0.0.0-ci
+
+      - name: Subir .deb de CI
+        uses: actions/upload-artifact@v4
+        with:
+          name: y520-nerve-center-ci-deb
+          path: packaging/out/*.deb
+          if-no-files-found: error

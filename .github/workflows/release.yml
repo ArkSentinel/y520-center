@@ -1,0 +1,35 @@
+# Release: al publicar un tag v* (p. ej. v0.1.0) compila el .deb
+# y lo adjunta a la GitHub Release automáticamente.
+# Uso local:  git tag v0.1.0 && git push origin v0.1.0
+name: Release .deb
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Dependencias
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y meson ninja-build g++ pkg-config \
+            libgtk-4-dev libadwaita-1-dev libglib2.0-dev dpkg-dev
+
+      - name: Construir .deb (versión = tag sin la v)
+        run: ./packaging/mkdeb.sh "${GITHUB_REF_NAME#v}"
+
+      - name: Publicar Release con .deb
+        uses: softprops/action-gh-release@v2
+        with:
+          files: packaging/out/*.deb
+          generate_release_notes: true

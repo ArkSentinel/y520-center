@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Y520 Nerve Center
+Comment=Control de enfriamiento, energía y teclado para Lenovo Y520
+Exec=y520-center
+Icon=org.lenovo.Y520Center
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;Settings;HardwareSettings;
+StartupNotify=true
+DBusActivatable=true

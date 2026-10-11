@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.lenovo.Y520Center</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Y520 Nerve Center</name>
+  <summary>Centro de control para Lenovo Y520 en GNOME</summary>
+  <description>
+    <p>
+      Y520 Nerve Center es una aplicación GNOME nativa (GTK4 + libadwaita)
+      para controlar el Lenovo Y520-15IKBN: Extreme Cooling por EC,
+      modo de conservación de batería, retroiluminación blanca del
+      teclado e información del sistema (DMI y sensores hwmon).
+    </p>
+    <p>
+      La aplicación habla con el daemon del sistema org.lenovo.Y520 por
+      D-Bus. Si el daemon no está disponible, muestra los datos de
+      sysfs en modo de solo lectura con un aviso visible.
+    </p>
+    <p lang="es">
+      Y520 Nerve Center es una aplicación GNOME nativa (GTK4 + libadwaita)
+      para controlar el Lenovo Y520-15IKBN: refrigeración extrema por EC,
+      modo de conservación de la batería, retroiluminación blanca del
+      teclado e información del sistema (DMI y sensores hwmon).
+    </p>
+    <p lang="es">
+      La aplicación se comunica con el daemon del sistema org.lenovo.Y520
+      a través de D-Bus. Si el daemon no está disponible, muestra los datos
+      de sysfs en modo de solo lectura con un aviso visible.
+    </p>
+  </description>
+  <launchable type="desktop-id">org.lenovo.Y520Center.desktop</launchable>
+  <url type="homepage">https://example.org/y520-nerve-center</url>
+  <developer id="org.lenovo">
+    <name>Y520 Nerve Center contributors</name>
+  </developer>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.1.0" date="2026-10-11">
+      <description>
+        <p>Versión inicial: páginas Enfriamiento, Energía, Teclado y Sistema con fallback sysfs.</p>
+        <p lang="es">Versión inicial: páginas Enfriamiento, Energía, Teclado y Sistema con respaldo a sysfs.</p>
+      </description>
+    </release>
+  </releases>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+  </supports>
+</component>

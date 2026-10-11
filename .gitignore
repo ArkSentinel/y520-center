@@ -1,0 +1,22 @@
+# Build
+build/
+builddir/
+*.o
+*.a
+
+# Meson introspection / wraps cache
+subprojects/packagecache/
+.wrap.todb
+
+# Paquetes generados
+*.deb
+*.changes
+*.buildinfo
+dist/
+packaging/out/
+
+# Editor / sistema
+.vscode/
+.idea/
+*~
+.DS_Store
