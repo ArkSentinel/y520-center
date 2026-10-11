@@ -1,10 +1,18 @@
 # Y520 Center
 
+<img src="data/icons/org.lenovo.Y520Center.svg" width="128" align="right" alt="Icono de Y520 Center">
+
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 
 Centro de control nativo GNOME (GTK4 + libadwaita + GDBus/gio, C++17) para el
 Lenovo Y520-15IKBN (80WK): Extreme Cooling por EC, modo de conservación de
 batería, retroiluminación blanca del teclado e información del sistema.
+
+## Pantallazos
+
+| Fan Control | System (sensores y núcleos en vivo) | Teclado |
+|---|---|---|
+| ![Fan Control](doc/screenshots/fan-control.png) | ![System](doc/screenshots/system.png) | ![Teclado](doc/screenshots/teclado.png) |
 
 ## Arquitectura
 
