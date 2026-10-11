@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE policyconfig PUBLIC "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN" "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
 <policyconfig>
-  <vendor>Lenovo Y520 Nerve Center</vendor>
+  <vendor>Lenovo Y520 Center</vendor>
   <!-- Acción única para todo: con auth_admin_keep la contraseña se pide
        una sola vez y vale para enfriamiento, batería y teclado. -->
   <action id="org.lenovo.Y520.manage">

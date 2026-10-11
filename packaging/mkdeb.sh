@@ -1,5 +1,5 @@
 #!/bin/bash
-# packaging/mkdeb.sh [version] — genera y520-nerve-center_<ver>_amd64.deb
+# packaging/mkdeb.sh [version] — genera y520-center_<ver>_amd64.deb
 # Uso: ./packaging/mkdeb.sh [0.1.0]   (por defecto: git describe o 0.1.0)
 # Requiere: meson ninja-build g++ pkg-config libgtk-4-dev libadwaita-1-dev
 #           libglib2.0-dev dpkg-dev
@@ -12,7 +12,7 @@ if [ -z "$VERSION" ]; then
     VERSION="${VERSION:-0.1.0}"
 fi
 OUT="packaging/out"
-ROOT="$OUT/root/y520-nerve-center_${VERSION}_amd64"
+ROOT="$OUT/root/y520-center_${VERSION}_amd64"
 
 echo "==> Versión: $VERSION"
 rm -rf "$OUT"
@@ -31,13 +31,13 @@ DESTDIR="$PWD/$ROOT" meson install -C "$OUT/build"
 echo "==> Control Debian"
 mkdir -p "$ROOT/DEBIAN"
 cat > "$ROOT/DEBIAN/control" <<EOF
-Package: y520-nerve-center
+Package: y520-center
 Version: $VERSION
 Section: utils
 Priority: optional
 Architecture: amd64
 Depends: libgtk-4-1 (>= 4.14), libadwaita-1-0 (>= 1.4), libglib2.0-0t64 (>= 2.80) | libglib2.0-0, polkitd | policykit-1, power-profiles-daemon
-Maintainer: Y520 Nerve Center contributors
+Maintainer: Y520 Center contributors
 Description: GNOME control center for the Lenovo Legion Y520
  Native GTK4/libadwaita app (C++) for the Lenovo Y520-15IKBN (80WK):
  Extreme Cooling fan mode via EC, battery conservation mode, white
@@ -59,6 +59,6 @@ EOF
 chmod 755 "$ROOT/DEBIAN/postinst"
 
 echo "==> dpkg-deb"
-dpkg-deb --build --root-owner-group "$ROOT" "$OUT/y520-nerve-center_${VERSION}_amd64.deb"
-echo "==> OK: $OUT/y520-nerve-center_${VERSION}_amd64.deb"
+dpkg-deb --build --root-owner-group "$ROOT" "$OUT/y520-center_${VERSION}_amd64.deb"
+echo "==> OK: $OUT/y520-center_${VERSION}_amd64.deb"
 ls -l "$OUT"/*.deb

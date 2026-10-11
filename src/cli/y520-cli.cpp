@@ -1,5 +1,5 @@
 /*
- * y520-cli.cpp — CLI del Lenovo Y520 Nerve Center (módulo A-ec-core).
+ * y520-cli.cpp — CLI del Lenovo Y520 Center (módulo A-ec-core).
  *
  * Uso:
  *   y520-cli {enable|disable|toggle|status|check}

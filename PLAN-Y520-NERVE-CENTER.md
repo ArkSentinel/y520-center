@@ -1,4 +1,4 @@
-# Y520 Nerve Center — Catastro y Plan Maestro (Ubuntu 26.04 + GNOME 50 + C++)
+# Y520 Center — Catastro y Plan Maestro (Ubuntu 26.04 + GNOME 50 + C++)
 
 > Archivo catastro: sirve como registro único del proyecto. Última actualización: 2026-10-11.
 > Equipo diana: LENOVO / Lenovo Y520-15IKBN / 80WK (verificado vía DMI en esta máquina).
@@ -42,7 +42,7 @@
 ## 3. Arquitectura objetivo (nativa GNOME + C++)
 
 ```
-y520-nerve-center/
+y520-center/
   PLAN-Y520-NERVE-CENTER.md      # este catastro
   meson.build                    # raíz (gtk4, adwaita, gio, polkit-gobject)
   src/ec/Y520EC.{h,cpp}          # ec_wait/read/write, activate/deactivate/is_active/detect (sys/io.h)

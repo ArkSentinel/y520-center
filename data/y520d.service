@@ -1,5 +1,5 @@
 [Unit]
-Description=Lenovo Y520 Nerve Center daemon (D-Bus org.lenovo.Y520)
+Description=Lenovo Y520 Center daemon (D-Bus org.lenovo.Y520)
 After=dbus.service
 Requires=dbus.service
 

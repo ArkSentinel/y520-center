@@ -34,6 +34,6 @@ jobs:
       - name: Subir .deb de CI
         uses: actions/upload-artifact@v4
         with:
-          name: y520-nerve-center-ci-deb
+          name: y520-center-ci-deb
           path: packaging/out/*.deb
           if-no-files-found: error

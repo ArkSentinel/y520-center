@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 /*
- * Y520 Nerve Center — GUI GNOME nativa (módulo C-gui)
- * Copyright (C) 2026  Y520 Nerve Center contributors
+ * Y520 Center — GUI GNOME nativa (módulo C-gui)
+ * Copyright (C) 2026  Y520 Center contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,11 +73,11 @@ constexpr const char *kReadmeText =
     "reduce the lifespan of your fans and do not\n"
     "use in laptops without extreme cooling support\n"
     "from Lenovo.";
-constexpr const char *kAboutProgram = "ExtremeCooling4Linux";
-constexpr const char *kAboutVersion = "0.3";
+constexpr const char *kAboutProgram = "Y520 Center";
+constexpr const char *kAboutVersion = "0.1.0";
 constexpr const char *kAboutComments =
     "A simple utility to enable Extreme Cooling fan mode for Lenovo Legion laptops";
-constexpr const char *kAboutWebsite = "https://gitlab.com/OdinTdh/extremecooling4linux";
+constexpr const char *kAboutWebsite = "https://github.com/ArkSentinel/y520-center";
 // Iconos del sistema encontrados (no generados): Adwaita + legion SVG propio.
 constexpr const char *kIconFan = "weather-windy-symbolic";
 constexpr const char *kIconPower = "battery-good-symbolic";
@@ -911,7 +911,7 @@ static void build_window(AppState *st) {
   // con HeaderBar (botones cerrar/min/max vía CSD), redimensionable y
   // páginas con scroll para que System no estire la ventana en altura.
   GtkWidget *win = adw_application_window_new(GTK_APPLICATION(st->app));
-  gtk_window_set_title(GTK_WINDOW(win), "ExtremeCooling4Linux");
+  gtk_window_set_title(GTK_WINDOW(win), "Y520 Center");
   gtk_window_set_default_size(GTK_WINDOW(win), 620, 800);
   gtk_window_set_resizable(GTK_WINDOW(win), TRUE);
   GtkWindow *win_ptr = GTK_WINDOW(win);
@@ -924,7 +924,7 @@ static void build_window(AppState *st) {
 
   GtkWidget *header = adw_header_bar_new();
   adw_header_bar_set_title_widget(ADW_HEADER_BAR(header),
-                                  gtk_label_new("ExtremeCooling4Linux"));
+                                  gtk_label_new("Y520 Center"));
   gtk_box_append(GTK_BOX(vbox), header);
 
   GtkWidget *body = gtk_box_new(GTK_ORIENTATION_VERTICAL, 12);

@@ -1,4 +1,4 @@
-# Y520 Nerve Center — regla udev para retroiluminación USB ITE (fallback).
+# Y520 Center — regla udev para retroiluminación USB ITE (fallback).
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 # NOTA Y520-15IKBN (80WK) verificado en esta máquina: el teclado es blanco

@@ -1,7 +1,7 @@
-# Y520 Nerve Center — build raíz (módulo D-build).
+# Y520 Center — build raíz (módulo D-build).
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-project('y520-nerve-center', 'cpp',
+project('y520-center', 'cpp',
   version : '0.1.0',
   license : 'GPL-3.0-or-later',
   default_options : ['cpp_std=c++17', 'warning_level=2'],

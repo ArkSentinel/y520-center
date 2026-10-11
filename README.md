@@ -1,4 +1,4 @@
-# Y520 Nerve Center
+# Y520 Center
 
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 
@@ -59,7 +59,7 @@ Cada tag `v*` genera un `.deb` en la GitHub Release (pipeline
 `.github/workflows/release.yml`):
 
 ```sh
-sudo dpkg -i y520-nerve-center_<versión>_amd64.deb
+sudo dpkg -i y520-center_<versión>_amd64.deb
 sudo systemctl enable --now y520d
 ```
 
