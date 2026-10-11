@@ -6,64 +6,50 @@
 
 Centro de control nativo GNOME (GTK4 + libadwaita + GDBus/gio, C++17) para el
 Lenovo Y520-15IKBN (80WK): Extreme Cooling por EC, modo de conservación de
-batería, retroiluminación blanca del teclado e información del sistema.
+batería, retroiluminación blanca del teclado e información del sistema en vivo.
 
-## Pantallazos
+## Recorrido
 
-| Fan Control | System (sensores y núcleos en vivo) | Teclado |
-|---|---|---|
-| ![Fan Control](doc/screenshots/fan-control.png) | ![System](doc/screenshots/system.png) | ![Teclado](doc/screenshots/teclado.png) |
-| Energía | Readme | |
-| ![Energía](doc/screenshots/energia.png) | ![Readme](doc/screenshots/readme.png) | |
+### Fan Control
 
-## Arquitectura
+Réplica del `ExtremeCooling4Linux` original: título, logo, interruptor
+**Enable Extreme Cooling** y estado con validación post-escritura. Al activar,
+los ventiladores van al 100 % (protocolo EC `0xBD`, ver nota de seguridad abajo).
 
-- `src/ec/Y520EC.{h,cpp}` — acceso al EC por IO ports (`0x66`/`0x62`,
-  `RD_EC=0x80`, `WR_EC=0x81`, registro `0xBD`, `0x40=on`/`0x00=off`).
-  Requiere root / `CAP_SYS_RAWIO` (`ioperm`).
-- `src/cli/y520-cli.cpp` — CLI sin privilegios salvo IO/sysfs.
-- `src/daemon/y520d.cpp` — daemon de sistema D-Bus `org.lenovo.Y520`
-  (`/org/lenovo/Y520`), con check polkit; único que toca el EC como root.
-- `src/gui/y520-center.cpp` — `AdwApplication org.lenovo.Y520Center` con
-  páginas Enfriamiento / Energía / Teclado / Sistema. Sin daemon, muestra
-  lectura sysfs directa con aviso "daemon no disponible". Nunca usa EC.
-- `data/` — `org.lenovo.Y520.policy` (polkit), `org.lenovo.Y520.conf`
-  (D-Bus system), `y520d.service` (systemd), `10-y520-kbd.rules` (udev
-  fallback ITE), `.desktop` + `.metainfo.xml`.
-- `tests/test_ec_dry.cpp` — test en seco sin hardware ni root.
+![Fan Control](doc/screenshots/fan-control.png)
 
-## Dependencias (Ubuntu 26.04)
+### Energía
 
-```sh
-sudo apt update && sudo apt install -y meson ninja-build g++ pkg-config \
-  libgtk-4-dev libadwaita-1-dev libpolkit-gobject-1-dev libglib2.0-dev \
-  lm-sensors power-profiles-daemon
-```
+Switch de **modo conservación** (detiene la carga en torno al 60 % vía
+`ideapad_acpi`), estado de la batería y perfil activo de
+`power-profiles-daemon`.
 
-Solo runtime (sin `-dev`): GTK 4.22, Adwaita 1.9, GNOME Shell 50 ya verificados
-en esta máquina.
+![Energía](doc/screenshots/energia.png)
 
-## Compilar
+### Teclado
 
-```sh
-meson setup build --prefix=/usr
-ninja -C build
-```
+Combo Off / Bajo / Alto, los 3 niveles del firmware (Fn+Espacio hace lo mismo).
+Ojo: este Y520 expone `max_brightness=1` por sysfs, así que el Alto por
+software equivale a Encendido; el Alto real solo lo pone el firmware.
 
-> `--prefix=/usr` es obligatorio: D-Bus, polkit y systemd solo leen rutas
-> bajo `/usr` (con `/usr/local` el daemon no se registra).
+![Teclado](doc/screenshots/teclado.png)
 
-## Instalar (desde fuente)
+### System
 
-```sh
-sudo meson install -C build
-sudo systemctl daemon-reload
-sudo systemctl enable --now y520d
-# udev (solo relevante si alguna variante expone USB ITE; el Y520 verificado no):
-sudo udevadm control --reload-rules && sudo udevadm trigger
-```
+Las 9 filas DMI del original (Model / Bios / Board), más monitores en vivo:
+temperatura por sensor (barra + °C, escala según `temp_max/crit`) y uso por
+núcleo (barra + %, refresco cada 2 s).
 
-## Instalar (desde .deb)
+![System](doc/screenshots/system.png)
+
+### Readme
+
+El texto informativo del programa original, íntegro: qué es el Extreme Cooling,
+en qué equipos funciona y la advertencia de usarlo en periodos cortos.
+
+![Readme](doc/screenshots/readme.png)
+
+## Instalar (desde .deb, recomendado)
 
 Cada tag `v*` genera un `.deb` en la GitHub Release (pipeline
 `.github/workflows/release.yml`):
@@ -73,7 +59,31 @@ sudo dpkg -i y520-center_<versión>_amd64.deb
 sudo systemctl enable --now y520d
 ```
 
-Generarlo en local:
+## Instalar (desde fuente, Ubuntu 26.04)
+
+```sh
+sudo apt update && sudo apt install -y meson ninja-build g++ pkg-config \
+  libgtk-4-dev libadwaita-1-dev libglib2.0-dev lm-sensors
+git clone https://github.com/ArkSentinel/y520-center.git
+cd y520-center
+meson setup build --prefix=/usr
+ninja -C build
+sudo meson install -C build
+sudo systemctl daemon-reload
+sudo systemctl enable --now y520d
+# udev (solo relevante si alguna variante expone USB ITE; el Y520 verificado no):
+sudo udevadm control --reload-rules && sudo udevadm trigger
+```
+
+> `--prefix=/usr` es obligatorio: D-Bus, polkit y systemd solo leen rutas
+> bajo `/usr` (con `/usr/local` el daemon no se registra).
+
+Destinos: binarios a `bindir` (`y520-cli`, `y520d`, `y520-center`), policy a
+`/usr/share/polkit-1/actions`, conf D-Bus a `/usr/share/dbus-1/system.d`,
+service a `/usr/lib/systemd/system`, regla udev a `/usr/lib/udev/rules.d`,
+`.desktop` a `applications`, icono a `icons/hicolor` y metainfo a `metainfo`.
+
+Generar el `.deb` en local:
 
 ```sh
 ./packaging/mkdeb.sh [versión]   # sale en packaging/out/
@@ -85,6 +95,23 @@ Generarlo en local:
 git tag v0.2.0 && git push origin v0.2.0
 # → GitHub Actions compila, empaqueta y adjunta el .deb a la Release
 ```
+
+## Arquitectura
+
+- `src/ec/Y520EC.{h,cpp}` — acceso al EC por IO ports (`0x66`/`0x62`,
+  `RD_EC=0x80`, `WR_EC=0x81`, registro `0xBD`, `0x40=on`/`0x00=off`).
+  Requiere root / `CAP_SYS_RAWIO` (`ioperm`).
+- `src/cli/y520-cli.cpp` — CLI sin privilegios salvo IO/sysfs.
+- `src/daemon/y520d.cpp` — daemon de sistema D-Bus `org.lenovo.Y520`
+  (`/org/lenovo/Y520`), con check polkit; único que toca el EC como root.
+- `src/gui/y520-center.cpp` — `AdwApplication org.lenovo.Y520Center` con
+  páginas Fan Control / Energía / Teclado / System / Readme. Sin daemon,
+  muestra lectura sysfs directa con aviso "daemon no disponible". Nunca usa EC.
+- `data/` — `org.lenovo.Y520.policy` (polkit, acción única
+  `org.lenovo.Y520.manage`), `org.lenovo.Y520.conf` (D-Bus system),
+  `y520d.service` (systemd), `10-y520-kbd.rules` (udev fallback ITE),
+  `.desktop` + icono + `.metainfo.xml`.
+- `tests/test_ec_dry.cpp` — test en seco sin hardware ni root.
 
 ## Tests en seco (sin root ni hardware)
 
@@ -99,21 +126,6 @@ devuelve true. El daemon también acepta `Y520_DRY=1` (además relaja polkit si
 PolicyKit no responde, solo en dry). El CLI acepta `Y520_CONSERVATION_PATH` y
 `Y520_KBD_PATH` para redirigir sysfs en tests.
 
-## Instalar (desde fuente)
-
-```sh
-sudo meson install -C build
-sudo systemctl daemon-reload
-sudo systemctl enable --now y520d
-# udev (solo relevante si alguna variante expone USB ITE; el Y520 verificado no):
-sudo udevadm control --reload-rules && sudo udevadm trigger
-```
-
-Destinos: binarios a `bindir` (`y520-cli`, `y520d`, `y520-center`), policy a
-`/usr/share/polkit-1/actions`, conf D-Bus a `/usr/share/dbus-1/system.d`,
-service a `systemdsystemunitdir`, regla udev a `udev/rules.d`, `.desktop` a
-`applications` y metainfo a `metainfo`.
-
 ## Uso CLI
 
 ```sh
@@ -122,7 +134,7 @@ y520-cli status                          # ACTIVADO / DESACTIVADO
 sudo y520-cli enable|disable|toggle
 y520-cli conservation status             # lee conservation_mode (VPC*)
 sudo y520-cli conservation on|off
-y520-cli kbd status                      # lee platform::kbd_backlight (0-2)
+y520-cli kbd status                      # lee platform::kbd_backlight
 sudo y520-cli kbd 0|1|2
 ```
 
@@ -131,16 +143,12 @@ Códigos de retorno: 0 ok, 1 error, 2 no soportado. Mensajes en ES + EN.
 ## Uso GUI
 
 ```sh
-./build/src/gui/y520-center
+y520-center
 ```
 
-Réplica del `ExtremeCooling4Linux` original (ventana, pestañas Fan Control /
-System / Readme, textos y About v0.3) + páginas Energía y Teclado: switch
-Extreme Cooling (validación post-escritura + señal `ExtremeCoolingChanged`),
-switch conservación, combo teclado Off/Bajo/Alto, System con 9 filas DMI +
-temperaturas en vivo (barra + °C por sensor) + uso por núcleo en vivo
-(barra + %). Autorización polkit única (`org.lenovo.Y520.manage`,
-`auth_admin_keep`: una contraseña vale para todo).
+Autorización polkit única (`org.lenovo.Y520.manage`, `auth_admin_keep`):
+la primera vez pide la contraseña y vale para enfriamiento, batería y
+teclado durante la sesión.
 
 ## Nota teclado
 
